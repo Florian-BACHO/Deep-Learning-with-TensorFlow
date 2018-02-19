@@ -3,4 +3,5 @@ My learning work using the ["Deep Learning avec TensorFlow"](https://www.dunod.c
 
 ## What is done ?
 
-- Normal Equation for linear approximation
+- Normal Equation for linear regression
+- Batch Gradient Descent for linear regression
