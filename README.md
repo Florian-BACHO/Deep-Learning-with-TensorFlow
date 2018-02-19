@@ -11,3 +11,4 @@ All what i didn't knowed before buy this book, it mean:
 So, i don't code these algorithms:
 - Stochastic Gradient Descent
 - Stochastic Gradient Descent with Learning Shedule
+- Logistic Gradient Descent
