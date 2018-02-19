@@ -1,15 +1,20 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3.5
 
 import numpy as np
-import matplotlib as plt
+import matplotlib.pyplot as plt
 
-targets = np.matrix([42, 21])
+nbExemple = 100
+targets = np.matrix([[42], [21]]) # Column vector of targeted weights
 
 def generateLinearTrainSet():
-    x = np.random.rand(100, 1) # Generate random entries
-    x = np.c_[np.ones((100, 1)), x] # Add 1 entry for each exemple (bias)
-    y = x @ targets.T + np.random.randn(100, 1) # Compute exemples
+    x = np.random.rand(nbExemple, 1) # Generate random entries
+    x = np.c_[np.ones((nbExemple, 1)), x] # Add 1 entry for each exemple (bias)
+    y = x @ targets + np.random.randn(nbExemple, 1) # Compute exemples
     return x, y
+
+def predict(theta, entries):
+    entries_b = np.c_[np.ones((1, 1)), entries]
+    return entries_b @ theta
 
 def main():
     x, y = generateLinearTrainSet()
@@ -19,6 +24,22 @@ def main():
     print(targets)
     print("Got:")
     print(theta)
+
+    print("----------------")
+
+    entries = np.matrix([-84])
+    print("Prediction with:")
+    print(entries)
+    print("Expected:")
+    print(predict(targets, entries))
+    print("Got:")
+    print(predict(theta, entries))
+
+    pred = x @ theta # Compute predictions on exemples
+    xWithoutBias = np.delete(x, 0, 1) # Remove bias column to plot
+    plt.plot(xWithoutBias, y, "b.")
+    plt.plot(xWithoutBias, pred, "r-")
+    plt.show()
 
 if __name__ == "__main__":
     main()
