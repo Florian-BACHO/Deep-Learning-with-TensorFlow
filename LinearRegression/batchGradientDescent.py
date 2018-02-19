@@ -4,6 +4,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 nbExemple = 100
+nbIteration = 1000
+learningRate = 0.1
 targets = np.matrix([[42], [21]]) # Column vector of targeted weights
 
 def generateLinearTrainSet():
@@ -16,9 +18,21 @@ def predict(theta, x):
     x_b = np.c_[np.ones((1, 1)), x]
     return x_b @ theta
 
+def calculateGradient(theta, x, y):
+    return 2. / nbExemple * x.T @ (x @ theta - y)
+
+def executeBatchGradientDescent(x, y):
+    theta = np.random.randn(2, 1) # Random initialization of weights with normal distribution
+
+    for _ in range(nbIteration):
+        gradients = calculateGradient(theta, x, y)
+        theta = theta - learningRate * gradients
+    return theta
+
 def main():
     x, y = generateLinearTrainSet()
-    theta = np.linalg.inv(x.T @ x) @ x.T @ y # Normal equation
+
+    theta = executeBatchGradientDescent(x, y)
 
     print("Expected:")
     print(targets)
