@@ -9,3 +9,4 @@ All what i didn't knowed before buy this book, it mean:
 
 ## What i have already done before buy the book
 - Stochastic Gradient Descent
+- Stochastic Gradient Descent with Learning Shedule
