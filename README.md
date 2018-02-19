@@ -8,5 +8,6 @@ All what i didn't knowed before buy this book, it mean:
 - Batch Gradient Descent for linear regression
 
 ## What i have already done before buy the book
+So, i don't code these algorithms:
 - Stochastic Gradient Descent
 - Stochastic Gradient Descent with Learning Shedule
