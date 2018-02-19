@@ -10,13 +10,16 @@ targets = np.matrix([[42], [21]]) # Column vector of targeted weights
 
 def generateLinearTrainSet():
     x = np.random.rand(nbExemple, 1) # Generate random entries
+    mean = x.mean(axis=0)
+    std = x.std(axis=0)
+    x = (x - mean) / std # Normalize
     x = np.c_[np.ones((nbExemple, 1)), x] # Add 1 entry for each exemple (bias)
     y = x @ targets + np.random.randn(nbExemple, 1) # Compute exemples
-    return x, y
+    return x, y, mean, std
 
 def predict(theta, x):
-    x_b = np.c_[np.ones((1, 1)), x]
-    return x_b @ theta
+    x_b = np.c_[np.ones((1, 1)), x] # Add 1 entry
+    return x_b @ theta # Predict
 
 def calculateGradient(theta, x, y):
     return 2. / nbExemple * x.T @ (x @ theta - y)
@@ -30,7 +33,7 @@ def executeBatchGradientDescent(x, y):
     return theta
 
 def main():
-    x, y = generateLinearTrainSet()
+    x, y, mean, std = generateLinearTrainSet()
 
     theta = executeBatchGradientDescent(x, y)
 
@@ -42,6 +45,7 @@ def main():
     print("----------------")
 
     entries = np.matrix([-84])
+    entries = (entries - mean) / std # Normalize
     print("Prediction with:")
     print(entries)
     print("Expected:")
