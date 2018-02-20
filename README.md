@@ -5,3 +5,4 @@ My learning work using the ["Deep Learning avec TensorFlow"](https://www.dunod.c
 
 - Normal Equation for linear regression with numpy
 - Batch Gradient Descent for linear regression with numpy
+- Normal Equation for linear regression with Tensorflow
