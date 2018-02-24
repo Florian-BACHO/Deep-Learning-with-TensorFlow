@@ -3,7 +3,7 @@
 import tensorflow as tf
 import numpy as np
 
-learningRate = 0.1
+learningRate = 0.2
 nb_entry = 2
 nb_hidden1 = 2
 nb_out = 1
