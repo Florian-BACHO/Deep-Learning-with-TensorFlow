@@ -8,3 +8,4 @@ My learning work using the ["Deep Learning avec TensorFlow"](https://www.dunod.c
 - Normal Equation for linear regression with Tensorflow (using california housing dataset)
 - Batch Gradient Descent for linear regression with Tensorflow (using california housing dataset)
 - Xor Problem solved by neural network with Tensorflow
+- Gradient Policy on neural network, solve CartPole reinforcement problem on OpenAI
