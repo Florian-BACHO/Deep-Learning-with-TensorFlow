@@ -4,7 +4,7 @@ import numpy as np
 
 env = gym.make('CartPole-v0')
 learningRate = 0.01
-discountRate = 0.95
+discountRate = 0.99
 nb_entry = env.observation_space.shape[0]
 nb_hidden = 4
 nb_action = 2
@@ -64,7 +64,7 @@ def discountAndNormalizeRewards(all_rewards, discount_rate):
     return [(rewards - mean) / std for rewards in discounted_rewards] # Return normalized discounted rewards
 
 # Execute tries to accumulate rewards and gradients
-def executeTries(sess, entry, y, action, gradients, render, softmax):
+def executeTries(sess, entry, y, action, gradients, render):
     all_rewards = [] # Rewards of all tries in the train iteration
     all_gradients = [] # Gradients of all tries in the train iteration
 
@@ -100,12 +100,11 @@ def main():
     layer1 = tf.layers.dense(entry, nb_hidden, name="hidden", activation=tf.nn.selu)
     out=tf.layers.dense(layer1, nb_action, name="hidden2")
 
-    softmax = tf.nn.softmax(out)
     # Action taken randomly with softmax outputs probabilities
-    action = tf.multinomial(tf.log(softmax), num_samples=1)
+    action = tf.multinomial(tf.log(tf.nn.softmax(out)), num_samples=1)
 
     y = tf.placeholder(tf.float32, shape=[None, nb_action], name="expectedOuts") # Expected activations
-    xentropy = tf.nn.sigmoid_cross_entropy_with_logits(logits=out, labels=y) # Loss
+    xentropy = tf.nn.softmax_cross_entropy_with_logits_v2(logits=out, labels=y) # Loss
 
     optimizer = tf.train.AdamOptimizer(learning_rate=learningRate)
     grad_and_vars = optimizer.compute_gradients(xentropy) # Compute gradients
@@ -129,7 +128,7 @@ def main():
             render = False
             if train_step % render_step == 0:
                 render = True
-            all_rewards, all_gradients = executeTries(sess, entry, y, action, gradients, render, softmax)
+            all_rewards, all_gradients = executeTries(sess, entry, y, action, gradients, render)
             # Compute policy gradients with rewards
             feed_dict = getGradientFeed(gradient_placeholders, all_gradients, all_rewards)
             # Execute policy gradient descent
