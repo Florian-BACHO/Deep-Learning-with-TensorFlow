@@ -1,3 +1,4 @@
+from math import fabs
 import gym
 import tensorflow as tf
 import numpy as np
@@ -27,10 +28,7 @@ def getGradientPlaceholders(grad_and_vars):
 def getExpectedOut(action):
     out = []
     for i in range(nb_action):
-        if i == action:
-            out.append(1.)
-        else:
-            out.append(0.)
+            out.append(1. if i == action else 0.)
     return out
 
 # Feed dictionary to give to the optimizer
@@ -40,8 +38,8 @@ def getGradientFeed(gradient_placeholders, gradients, all_rewards):
         tmp_grad = [] # Gradient * Reward
         for try_index, rewards in enumerate(all_rewards): # For each try
             for step, reward in enumerate(rewards): # For each step in current try
-                tmp_grad.append(reward * gradients[try_index][step][grad_idx])
-        mean_gradients = np.mean(tmp_grad, axis=0)
+                tmp_grad.append(reward * gradients[try_index][step][grad_idx]) # Gradient * reward
+        mean_gradients = np.mean(tmp_grad, axis=0) # Mean gradients
         feed_dict[grad_placeholder] = mean_gradients
     return feed_dict
 
@@ -72,8 +70,8 @@ def executeTries(sess, entry, y, action, gradients, render):
         # Run a try
         obs = env.reset() # Reset environment & get first observation
 
-        current_rewards = []
-        current_gradients = []
+        current_rewards = [] # Rewards of current try
+        current_gradients = [] # Gradients of current try
 
         for i in range(nb_max_step):
             if render:
@@ -84,6 +82,7 @@ def executeTries(sess, entry, y, action, gradients, render):
             grads = sess.run(gradients, feed_dict={entry: [obs], y: [expectedOuts]}) # Get gradients
 
             obs, reward, done , info = env.step(a) # Execute the action in the environment
+            reward -= fabs(obs[0]) / 2. # Substract the distance from the center (force it to be centered)
             current_rewards.append(reward)
             current_gradients.append(grads)
 
@@ -125,10 +124,8 @@ def main():
         for train_step in range(nb_train):
             print("Iteration:", train_step)
             # Execute tries and collect normalized discounted rewards & gradients
-            render = False
-            if train_step % render_step == 0:
-                render = True
-            all_rewards, all_gradients = executeTries(sess, entry, y, action, gradients, render)
+            all_rewards, all_gradients = executeTries(sess, entry, y, action, gradients,\
+                                                      train_step % render_step == 0)
             # Compute policy gradients with rewards
             feed_dict = getGradientFeed(gradient_placeholders, all_gradients, all_rewards)
             # Execute policy gradient descent
