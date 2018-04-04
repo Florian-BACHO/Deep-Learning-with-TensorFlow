@@ -7,8 +7,8 @@ n_step = 20
 n_input = 1
 n_neurons = 100
 n_outputs = 1
-n_iteration = 2000
-learningRate = 0.001
+n_iteration = 500
+learningRate = 0.01
 
 n_train_ex = 100
 n_test_ex = 10

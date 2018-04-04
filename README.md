@@ -20,4 +20,4 @@ My learning work using the ["Deep Learning avec TensorFlow"](https://www.dunod.c
 
 ### Recurrent Neural Network
 
-- Basic Recurrent Neural Network
+- Basic Recurrent Neural Network on sinus function
