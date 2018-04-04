@@ -12,7 +12,8 @@ My learning work using the ["Deep Learning avec TensorFlow"](https://www.dunod.c
 
 ### Fully connected Neural Network
 
-- Xor Problem solved by neural network with Tensorflow
+- Xor Problem solved by one hidden layer Neural Network
+- MNIST | Handwritten digits Problem solved by Deep Neural Network
 
 ### Reinforcement Learning
 
