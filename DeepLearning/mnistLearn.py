@@ -29,7 +29,7 @@ def main():
     xentropy = tf.nn.sparse_softmax_cross_entropy_with_logits(logits=out, labels=expectedOuts)
     loss = tf.reduce_mean(xentropy)
     correct = tf.nn.in_top_k(out, expectedOuts, 1) # Return boolean matrix of correct predicted classes
-    accuracy = tf.reduce_mean(tf.cast(correct, tf.float32))
+    accuracy = tf.reduce_mean(tf.cast(correct, tf.float32)) * 100
 
     optimizer = tf.train.AdamOptimizer(learning_rate=learningRate)
     gradientDescentOp = optimizer.minimize(loss)
@@ -43,7 +43,7 @@ def main():
         for i in range(n_epoch):
             if i % 10 == 0:
                 test_accuracy = accuracy.eval(feed_dict={entry: mnist.test.images, \
-                                                         expectedOuts: mnist.test.labels}) * 100
+                                                         expectedOuts: mnist.test.labels})
                 print("Iteration", i, "\tTest Accuracy:", test_accuracy, "%")
             X_batch, y_batch = mnist.train.next_batch(batch_size)
             sess.run(gradientDescentOp, feed_dict={entry: X_batch, \
