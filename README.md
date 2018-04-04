@@ -13,7 +13,7 @@ My learning work using the ["Deep Learning avec TensorFlow"](https://www.dunod.c
 ### Fully connected Neural Network
 
 - Xor Problem solved by one hidden layer Neural Network
-- MNIST | Handwritten digits Problem solved by Deep Neural Network
+- MNIST | Handwritten digits classification Problem solved by Deep Neural Network
 
 ### Reinforcement Learning
 
@@ -21,4 +21,4 @@ My learning work using the ["Deep Learning avec TensorFlow"](https://www.dunod.c
 
 ### Recurrent Neural Network
 
-- Basic Recurrent Neural Network on sinus function
+- Basic Recurrent Neural Network regression on the sinus function
